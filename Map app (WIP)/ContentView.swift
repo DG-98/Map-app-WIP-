@@ -8,14 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
+    let tasks:[Task] = Task.mockedTasks
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        NavigationView {
+            List {
+                ForEach(tasks) { task in
+                    NavigationLink(destination: DetailVIew(tasks: task)) {
+                        /*@START_MENU_TOKEN@*/Text(task.title)/*@END_MENU_TOKEN@*/
+                    }
+                }
+            }
         }
-        .padding()
     }
 }
 
