@@ -13,13 +13,22 @@ struct DetailVIew: View {
     
     @State private var selectedImage: UIImage?
     @State private var isShowingPhotoPicker = false
+    @State private var isChecked = false
+    
     var body: some View {
         VStack {
-            Text(tasks.title)
+            TaskListItemView(task: tasks)
             Text(tasks.description)
+            if let image = selectedImage {
+                         Image(uiImage: image)
+                             .resizable()
+                             .aspectRatio(contentMode: .fit)
+//                             .frame(maxWidth: .infinity, maxHeight: .infinity)
+                     }
             Button("Attach Photo") {
                 isShowingPhotoPicker = true
             }
+
         }
         .sheet(isPresented: $isShowingPhotoPicker) {
             PhotoPicker(selectedImage: $selectedImage)

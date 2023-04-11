@@ -7,6 +7,24 @@
 
 import SwiftUI
 
+struct TaskListItemView: View {
+    let task: Task
+    @State private var isChecked = false
+    
+    
+    var body: some View {
+        HStack {
+            Image(systemName: isChecked ? "checkmark.circle" : "circle")
+                .foregroundColor(isChecked ? .blue : .gray)
+                .onTapGesture {
+                    isChecked.toggle()
+                }
+            Text(task.title)
+        }
+    }
+}
+
+
 struct ContentView: View {
     let tasks:[Task] = Task.mockedTasks
     var body: some View {
@@ -14,7 +32,7 @@ struct ContentView: View {
             List {
                 ForEach(tasks) { task in
                     NavigationLink(destination: DetailVIew(tasks: task)) {
-                        /*@START_MENU_TOKEN@*/Text(task.title)/*@END_MENU_TOKEN@*/
+                        TaskListItemView(task: task)
                     }
                 }
             }
