@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+struct Checkbox: View {
+    @Binding var isChecked: Bool
+    
+    var body: some View {
+        Image(systemName: isChecked ? "checkmark.square.fill" : "square")
+            .onTapGesture {
+                isChecked.toggle()
+            }
+    }
+}
+
+
 struct TaskListItemView: View {
     let task: Task
     @State private var isChecked = false
@@ -14,11 +26,7 @@ struct TaskListItemView: View {
     
     var body: some View {
         HStack {
-            Image(systemName: isChecked ? "checkmark.circle" : "circle")
-                .foregroundColor(isChecked ? .blue : .gray)
-                .onTapGesture {
-                    isChecked.toggle()
-                }
+            Checkbox(isChecked: $isChecked)
             Text(task.title)
         }
     }
@@ -26,12 +34,14 @@ struct TaskListItemView: View {
 
 
 struct ContentView: View {
+    @State private var isChecked = false
+    
     let tasks:[Task] = Task.mockedTasks
     var body: some View {
         NavigationView {
             List {
                 ForEach(tasks) { task in
-                    NavigationLink(destination: DetailVIew(tasks: task)) {
+                    NavigationLink(destination: DetailVIew(tasks: task, isChecked: $isChecked)) {
                         TaskListItemView(task: task)
                     }
                 }
